@@ -1,7 +1,10 @@
 package com.qa.client;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.http.Header;
@@ -26,5 +29,33 @@ public class RestClient {
 		return closeableHttpResponse;
 		
 	}
+	
+	// 2hash. GET Method with Headers:
+		public CloseableHttpResponse get(String url,HashMap<String , String> headerMap) throws ClientProtocolException, IOException {
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+			HttpGet httpget = new HttpGet(url); // http get request
+			
+			for (Entry<String, String> entry:headerMap.entrySet())
+			{
+				httpget.addHeader(entry.getKey(),entry.getValue());
+			}
+			CloseableHttpResponse closeableHttpResponse = httpClient.execute(httpget);
+			return closeableHttpResponse;
+			
+		}
+	//POST method
+		public CloseableHttpResponse post(String url , String entityString,HashMap<String , String> headerMap) throws ClientProtocolException, IOException
+		{
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+			HttpPost httpPost = new HttpPost(url); // http get request
+			httpPost.setEntity(new StringEntity(entityString));
+			//for headers
+			for (Entry<String, String> entry:headerMap.entrySet())
+			{
+				httpPost.addHeader(entry.getKey(),entry.getValue());
+			}
+			CloseableHttpResponse closeableHttpResponse = httpClient.execute(httpPost);
+			return closeableHttpResponse;
+		}
 			
 }

@@ -10,6 +10,9 @@ public class TestBase {
 	public int RESPONSE_STATUS_200=200;
 	public int RESPONSE_STATUS_500=500;
 	public int RESPONSE_STATUS_400=400;
+	public int RESPONSE_STATUS_201=201;
+	
+	
 	public TestBase() {
 
 		try {
