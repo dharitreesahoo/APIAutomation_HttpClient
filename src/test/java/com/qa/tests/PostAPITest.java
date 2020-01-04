@@ -48,16 +48,12 @@ public class PostAPITest extends TestBase {
 
 		// jackson API://Create user class in Java and insert the data
 		ObjectMapper mapper = new ObjectMapper();
-		Users users = new Users("morpheus", "leader");
+		Users users = new Users("morpheus", "leader");//Expected User Object
 
 		// Covert POJO to json file:
 		mapper.writeValue(new File(System.getProperty("user.dir") + "/src/main/java/com/qa/data/users.json"), users);
 
-		// Convert JSON object to String
-		String userJSONString = mapper.writeValueAsString(users);
-		System.out.println(userJSONString);
-
-		// java object to json in String:
+		// java object to json in String to parse the Data:
 		String usersJsonString = mapper.writeValueAsString(users);
 		System.out.println(usersJsonString);
 
@@ -66,6 +62,20 @@ public class PostAPITest extends TestBase {
 		// 1. status code:
 		int statusCode = closeableHttpResponse.getStatusLine().getStatusCode();
 		Assert.assertEquals(statusCode, testBase.RESPONSE_STATUS_201);
+		
+		//Covert to JSON string 
+		String responseString  = EntityUtils.toString(closeableHttpResponse.getEntity(),"UTF-8");
+		
+		JSONObject responseJSON = new JSONObject(responseString);
+		System.out.println("Response froAPI is : "+responseJSON);
+		
+		//Covert the JSON String to Java Object again because we can compare Java Objects now
+		
+		Users userObj= mapper.readValue(responseString, Users.class);//Actual Users object
+		System.out.println(userObj);
+		
+		System.out.println(users.getName().equals(userObj.getId()));
+		System.out.println(users.getJob().equals(userObj.getCreatedAt()));
 
 	}
 
