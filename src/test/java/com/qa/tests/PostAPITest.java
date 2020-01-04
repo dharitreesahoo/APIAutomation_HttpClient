@@ -67,7 +67,7 @@ public class PostAPITest extends TestBase {
 		String responseString  = EntityUtils.toString(closeableHttpResponse.getEntity(),"UTF-8");
 		
 		JSONObject responseJSON = new JSONObject(responseString);
-		System.out.println("Response froAPI is : "+responseJSON);
+		System.out.println("Response from API is : "+responseJSON);
 		
 		//Covert the JSON String to Java Object again because we can compare Java Objects now
 		
